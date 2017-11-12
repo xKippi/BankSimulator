@@ -175,7 +175,7 @@ public class Bank
         System.out.println("HELP                                       \tShows this help");
         System.out.println("SELECT accNr                               \tSelects an account with an specific account number.");
         System.out.println("PRINT [query]                              \tQueries and prints account data");
-        System.out.println("ADD accType [a:accNr] [b:balance] [l:limit]\tAdds either a account of type SavingAccount (SA) or CheckingAccount (CA)");
+        System.out.println("ADD accType [a:accNr] [b:balance] [l:limit]\tAdds either an account of type SavingAccount (SA) or CheckingAccount (CA)");
         System.out.println("                                           \tIf no account number is submitted, a new one is generated (SA001 or CA001)");
         System.out.println("                                           \tThe limit is only specified for checking accounts");
         System.out.println("REMOVE [query]                             \tRemoves the account(s) specified in the query");

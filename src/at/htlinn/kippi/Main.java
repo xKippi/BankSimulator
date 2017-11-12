@@ -74,7 +74,7 @@ public class Main {
                 if(splitInput[0].equals("B")) { b = Integer.parseInt(splitInput[1]); continue; }
                 if(splitInput[0].equals("L")) { l = Integer.parseInt(splitInput[1]); continue; }
 
-                System.out.println("Invalid argument: "+input[i]+". Type \"HELP\" for help");
+                System.out.println("Invalid argument: \""+input[i]+"\". Type \"HELP\" for help");
                 return;
             }
             switch(input[1])
@@ -99,8 +99,8 @@ public class Main {
                         System.out.print(e.getMessage() + " Overwrite? (y/N): ");
                         if (sc.nextLine().toUpperCase().equals("Y"))
                             bank.addCheckingAccount(a, b, l, true);
-                    }
-                default: System.out.println("Invalid argument: "+input[1]+". Type \"HELP\" for help");
+                    } break;
+                default: System.out.println("Invalid argument: \""+input[1]+"\". Type \"HELP\" for help"); break;
             }
         }
         catch(Exception e) { System.out.println("Invalid arguments. Type \"HELP\" for help"); }
