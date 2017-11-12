@@ -1,6 +1,6 @@
 package at.htlinn.kippi.bank;
 
-import at.htlinn.kippi.Function;
+import at.htlinn.kippi.Method;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class Bank
 
     public void printValues(String query)
     {
-        parseQuery(query, new Function<String>() {
+        parseQuery(query, new Method<String>() {
             @Override
             public String call(String... arguments)
             {
@@ -79,7 +79,7 @@ public class Bank
 
     public void removeAccount(String query)
     {
-        parseQuery(query, new Function<String>() {
+        parseQuery(query, new Method<String>() {
             @Override
             public String call(String... arguments) {
                 if(accounts.containsKey(arguments[0]))
@@ -94,7 +94,7 @@ public class Bank
 
     public void deposit(String query, double amount)
     {
-        parseQuery(query, new Function<String>() {
+        parseQuery(query, new Method<String>() {
             @Override
             public String call(String... arguments) {
                 if(accounts.containsKey(arguments[0]))
@@ -109,7 +109,7 @@ public class Bank
 
     public void withdraw(String query, double amount)
     {
-        parseQuery(query, new Function<String>() {
+        parseQuery(query, new Method<String>() {
             @Override
             public String call(String... arguments) {
                 if(accounts.containsKey(arguments[0]))
@@ -156,7 +156,7 @@ public class Bank
         System.out.println("If no query is submitted, the CURRENTly selected account will be queried");
     }
 
-    private void parseQuery(String query, Function<String> func)
+    private void parseQuery(String query, Method<String> func)
     {
         if(query.toUpperCase().equals("ALL"))
             for (Map.Entry<String, Account> account : accounts.entrySet())
