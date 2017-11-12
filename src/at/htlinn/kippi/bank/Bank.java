@@ -45,8 +45,14 @@ public class Bank
             return;
         }
 
+        if(accountNr.contains(",") || accountNr.contains("-"))
+        {
+            System.out.println("Illegal character in account number");
+            return;
+        }
+
         if(accounts.containsKey(accountNr) && !overwrite)
-            throw new IllegalArgumentException("The account \""+accountNr+"\" already exists");
+            throw new UnsupportedOperationException("The account \""+accountNr+"\" already exists");
 
         if(accountNr.equals(""))
             do accountNr = "SA" + String.format("%03d", ++SACounter);
@@ -66,8 +72,14 @@ public class Bank
             return;
         }
 
+        if(accountNr.contains(",") || accountNr.contains("-"))
+        {
+            System.out.println("Illegal character in account number");
+            return;
+        }
+
         if(accounts.containsKey(accountNr) && !overwrite)
-            throw new IllegalArgumentException("The account \""+accountNr+"\" already exists");
+            throw new UnsupportedOperationException("The account \""+accountNr+"\" already exists");
 
         if(accountNr.equals(""))
             do accountNr = "CA" + String.format("%03d", ++CACounter);
@@ -123,9 +135,31 @@ public class Bank
         });
     }
 
+    public void transfer(String source, String destination, double amount)
+    {
+        if(source.equals("CURRENT"))
+            source = currentAccountNr;
 
+        if(!accounts.containsKey(source))
+        {
+            System.out.println("Account \""+source+"\" doesn't exist");
+            return;
+        }
+        if(!accounts.containsKey(destination))
+        {
+            System.out.println("Account \""+destination+"\" doesn't exist");
+            return;
+        }
+
+        try { accounts.get(source).withdraw(amount); }
+        catch (UnsupportedOperationException e) { System.out.println(e.getMessage()); return;}
+
+        accounts.get(destination).deposit(amount);
+        System.out.println(String.format(Locale.GERMAN, "Transferred %.2f€ from \"" + source + "\" to \"" + destination +"\"", amount));
+    }
 
     public void bankRobbery()
+
     {
         for (Map.Entry<String, Account> account : accounts.entrySet())
             if(account.getValue().getBalance() > 0)
@@ -144,15 +178,15 @@ public class Bank
         System.out.println("ADD accType [a:accNr] [b:balance] [l:limit]\tAdds either a account of type SavingAccount (SA) or CheckingAccount (CA)");
         System.out.println("                                           \tIf no account number is submitted, a new one is generated (SA001 or CA001)");
         System.out.println("                                           \tThe limit is only specified for checking accounts");
-        System.out.println("REMOVE [query]                             \tRemoved the account(s) specified in the query");
-        System.out.println("DEPOSIT amount [query]                     \tDeposits a certain amount of money into the specified accounts");
-        System.out.println("WITHDRAW amount [query]                    \tWithdraws a certain amount of money from the specified accounts");
-        System.out.println("TRANSFER [s:accNr] accNr amount            \tTransfers a certain amount of money from the first to the second account");
+        System.out.println("REMOVE [query]                             \tRemoves the account(s) specified in the query");
+        System.out.println("DEPOSIT [query] amount                     \tDeposits a certain amount of money into the specified accounts");
+        System.out.println("WITHDRAW [query] amount                    \tWithdraws a certain amount of money from the specified accounts");
+        System.out.println("TRANSFER [srcAccNr] destAccNr amount       \tTransfers a certain amount of money from the first to the second account");
         System.out.println("                                           \tIf no sender is submitted, the currently selected account will be used");
-        System.out.println("BANKROBBERY                                \tRobs the bank :)");
+        //System.out.println("BANKROBBERY                                \tRobs the bank :)");
         System.out.println("EXAMPLE                                    \tPrints an example");
         System.out.println("EXIT                                       \tExits the program");
-        System.out.println("\nPossible queries are: ALL, accNr1-accNr6, accNr1,accNr3,accNr2, accNr5, CURRENT");
+        System.out.println("\nPossible queries are: ALL; accNr1-accNr6; accNr1,accNr3,accNr2; accNr5; CURRENT");
         System.out.println("If no query is submitted, the CURRENTly selected account will be queried");
     }
 

@@ -27,11 +27,30 @@ public class Main {
                 case "PRINT": bank.printValues(input.length > 1? input[1]:"CURRENT"); break;
                 case "ADD": addAccount(input, bank); break;
                 case "REMOVE": bank.removeAccount(input.length > 1? input[1]:"CURRENT"); break;
-                case "DEPOSIT": try { bank.deposit(input.length > 2? input[2]:"CURRENT", Double.parseDouble(input[1])); }
-                                catch(Exception e) { System.out.println("Invalid input. Type \"HELP\" for help"); } break;
-                case "WITHDRAW": try { bank.withdraw(input.length > 2? input[2]:"CURRENT", Double.parseDouble(input[1])); }
-                                 catch(Exception e) { System.out.println("Invalid input. Type \"HELP\" for help"); } break;
-                case "TRANSFER": break;
+                case "DEPOSIT":
+                    try {
+                        if(input.length > 2)
+                            bank.deposit(input[1], Double.parseDouble(input[2]));
+                        else
+                            bank.deposit("CURRENT", Double.parseDouble(input[1]));
+                    }
+                    catch(Exception e) { System.out.println("Invalid arguments. Type \"HELP\" for help"); } break;
+                case "WITHDRAW":
+                    try {
+                        if(input.length > 2)
+                            bank.withdraw(input[1], Double.parseDouble(input[2]));
+                        else
+                            bank.withdraw("CURRENT", Double.parseDouble(input[1]));
+                    }
+                    catch(Exception e) { System.out.println("Invalid arguments. Type \"HELP\" for help"); } break;
+                case "TRANSFER":
+                    try {
+                        if (input.length > 3)
+                            bank.transfer(input[1], input[2], Double.parseDouble(input[3]));
+                        else
+                            bank.transfer("CURRENT", input[1], Double.parseDouble(input[2]));
+                    }
+                    catch(Exception e) { System.out.println("Invalid arguments. Type \"HELP\" for help"); } break;
                 case "BANKROBBERY": bank.bankRobbery(); break;
                 case "EXAMPLE": break;
                 case "EXIT": System.out.println("Bye\n"); return;
@@ -58,31 +77,32 @@ public class Main {
                 System.out.println("Invalid argument: "+input[i]+". Type \"HELP\" for help");
                 return;
             }
-            if(input[1].equals("SAVINGSACCOUNT") || input[1].equals("SA"))
+            switch(input[1])
             {
-                try {
-                    bank.addSavingsAccount(a, b);
-                } catch (IllegalArgumentException e) {
-                    Scanner sc = new Scanner(System.in);
-                    System.out.print(e.getMessage() + " Overwrite? (y/N): ");
-                    if (sc.nextLine().toUpperCase().equals("Y"))
-                        bank.addSavingsAccount(a, b, true);
-                }
+                case "SA":
+                case "SAVINGSACCOUNT":
+                    try {
+                        bank.addSavingsAccount(a, b);
+                    } catch (UnsupportedOperationException e) {
+                        Scanner sc = new Scanner(System.in);
+                        System.out.print(e.getMessage() + " Overwrite? (y/N): ");
+                        if (sc.nextLine().toUpperCase().equals("Y"))
+                            bank.addSavingsAccount(a, b, true);
+                    } break;
+
+                case "CA":
+                case "CHECKINGACCOUNT":
+                    try {
+                        bank.addCheckingAccount(a, b, l);
+                    } catch (UnsupportedOperationException e) {
+                        Scanner sc = new Scanner(System.in);
+                        System.out.print(e.getMessage() + " Overwrite? (y/N): ");
+                        if (sc.nextLine().toUpperCase().equals("Y"))
+                            bank.addCheckingAccount(a, b, l, true);
+                    }
+                default: System.out.println("Invalid argument: "+input[1]+". Type \"HELP\" for help");
             }
-            else if(input[1].equals("CHECKINGACCOUNT") || input[1].equals("CA"))
-            {
-                try {
-                    bank.addCheckingAccount(a, b, l);
-                } catch (IllegalArgumentException e) {
-                    Scanner sc = new Scanner(System.in);
-                    System.out.print(e.getMessage() + " Overwrite? (y/N): ");
-                    if (sc.nextLine().toUpperCase().equals("Y"))
-                        bank.addCheckingAccount(a, b, l, true);
-                }
-            }
-            else
-                System.out.println("Invalid argument: "+input[1]+". Type \"HELP\" for help");
         }
-        catch(Exception e) { System.out.println("Invalid input. Type \"HELP\" for help"); }
+        catch(Exception e) { System.out.println("Invalid arguments. Type \"HELP\" for help"); }
     }
 }
