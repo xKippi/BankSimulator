@@ -1,11 +1,13 @@
 package at.htlinn.kippi.bank;
 
+import java.util.Currency;
 import java.util.Locale;
 
 public abstract class Account
 {
     protected String accountNumber;
     protected double balance;
+    protected String currencySymbol = Currency.getInstance(Locale.getDefault()).getSymbol();
 
     public Account(String accountNumber, double startingBalance)
     {
@@ -37,7 +39,7 @@ public abstract class Account
     @Override
     public String toString()
     {
-        return "Account number: "+accountNumber+String.format(Locale.GERMAN,"\tBalance: %.2f€",balance);
+        return "Account number: "+accountNumber+String.format("\tBalance: %,.2f"+currencySymbol,balance);
     }
 
     @Override

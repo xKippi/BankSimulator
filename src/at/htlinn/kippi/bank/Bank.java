@@ -1,6 +1,7 @@
 package at.htlinn.kippi.bank;
 
 import at.htlinn.kippi.Method;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -10,6 +11,7 @@ public class Bank
     private Map<String ,Account> accounts = new HashMap<>();
     private String currentAccountNr = "";
     private int SACounter = 0, CACounter = 0;
+    private String currencySymbol = java.util.Currency.getInstance(Locale.getDefault()).getSymbol();
 
     public void selectAccount(String accountNr)
     {
@@ -112,7 +114,7 @@ public class Bank
                 if(accounts.containsKey(arguments[0]))
                 {
                     accounts.get(arguments[0]).deposit(amount);
-                    return String.format(Locale.GERMAN, "Deposited %.2f€ into account \"" + arguments[0] + "\"", amount);
+                    return String.format("Deposited %,.2f"+currencySymbol+" into account \"" + arguments[0] + "\"", amount);
                 }
                 return "Account \""+arguments[0]+"\" doesn't exist";
             }
@@ -128,7 +130,7 @@ public class Bank
                 {
                     try { accounts.get(arguments[0]).withdraw(amount); }
                     catch (UnsupportedOperationException e) { return e.getMessage(); }
-                    return String.format(Locale.GERMAN, "Withdrew %.2f€ from account \"" + arguments[0] + "\"", amount);
+                    return String.format("Withdrew %,.2f"+currencySymbol+" from account \"" + arguments[0] + "\"", amount);
                 }
                 return "Account \""+arguments[0]+"\" doesn't exist";
             }
@@ -155,7 +157,7 @@ public class Bank
         catch (UnsupportedOperationException e) { System.out.println(e.getMessage()); return;}
 
         accounts.get(destination).deposit(amount);
-        System.out.println(String.format(Locale.GERMAN, "Transferred %.2f€ from \"" + source + "\" to \"" + destination +"\"", amount));
+        System.out.printf("Transferred %,.2f"+currencySymbol+" from \"" + source + "\" to \"" + destination +"\"", amount);
     }
 
     public void bankRobbery()
@@ -193,8 +195,11 @@ public class Bank
     private void parseQuery(String query, Method<String> func)
     {
         if(query.toUpperCase().equals("ALL"))
-            for (Map.Entry<String, Account> account : accounts.entrySet())
-                System.out.println(func.call(account.getKey()));
+        {
+            String[] keys = accounts.keySet().toArray(new String[0]);
+            for (String key : keys)
+                System.out.println(func.call(key));
+        }
         else if(query.toUpperCase().equals("CURRENT"))
             System.out.println(accounts.containsKey(currentAccountNr)? func.call(currentAccountNr):"There is currently no account selected");
         else if (query.contains(","))

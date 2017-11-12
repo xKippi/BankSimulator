@@ -1,7 +1,5 @@
 package at.htlinn.kippi.bank;
 
-import java.util.Locale;
-
 public class CheckingAccount extends Account
 {
     private double overdraftLimit;
@@ -29,7 +27,7 @@ public class CheckingAccount extends Account
     @Override
     public String toString()
     {
-        return "Type: CheckingAccounts\t" + super.toString() + String.format(Locale.GERMAN, "\tOverdraft limit: %.2f€",overdraftLimit);
+        return "Type: CheckingAccounts\t" + super.toString() + String.format("\tOverdraft limit: %,.2f"+currencySymbol, overdraftLimit);
     }
 
     @Override

@@ -1,12 +1,15 @@
 package at.htlinn.kippi;
 
 import at.htlinn.kippi.bank.Bank;
+
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args)
     {
+        Locale.setDefault(Locale.getDefault(Locale.Category.FORMAT));
         Bank bank = new Bank();
         Scanner sc = new Scanner(System.in);
 
@@ -14,7 +17,6 @@ public class Main {
         System.out.println("(C) Daniel Kipp, 2017");
         System.out.println("\nType \"HELP\" for help\n");
 
-        //String input="";
         String[] input;
         while(true)
         {
