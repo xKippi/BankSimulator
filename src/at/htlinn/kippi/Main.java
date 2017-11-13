@@ -66,15 +66,15 @@ public class Main {
     private static void addAccount(String[] input, Bank bank)
     {
         String a="";
-        int b=0, l=0;
+        double b=0, l=0;
         try
         {
             for (int i=2; i<input.length; i++)
             {
                 String[] splitInput = input[i].split(":");
                 if(splitInput[0].equals("A")) { a = splitInput[1]; continue; }
-                if(splitInput[0].equals("B")) { b = Integer.parseInt(splitInput[1]); continue; }
-                if(splitInput[0].equals("L")) { l = Integer.parseInt(splitInput[1]); continue; }
+                if(splitInput[0].equals("B")) { b = Double.parseDouble(splitInput[1]); continue; }
+                if(splitInput[0].equals("L")) { l = Double.parseDouble(splitInput[1]); continue; }
 
                 System.out.println("Invalid argument: \""+input[i]+"\". Type \"HELP\" for help");
                 return;
